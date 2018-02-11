@@ -23,7 +23,11 @@
 
 - name: Create virtual machine
   hosts: localhost
-  #connection: "{{ connection }}"
+  environment:
+    AZURE_CLIENT_ID: "{{ client_id }}"
+    AZURE_SECRET: "{{ secret }}"
+    AZURE_SUBSCRIPTION_ID: "{{ subscription_id }}"
+    AZURE_TENANT: "{{ tenant }}"
   vars:
     - debug: 1
   pre_tasks:

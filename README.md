@@ -8,6 +8,29 @@ Requirements:
 - new generated application key for access
 - ansible core or ansible tower installed
 
+Installation On Ansible Tower
+1.) Allow awx user to become root
+    echo 'awx ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/awx
+2.) Add Azure Credentials to the AWX user
+    cat ~awx/.azure/credentials
+    [default]
+    subscription_id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    tenant: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    secret: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    client_id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+
+    # Alternatively, you can sett "Extra Values" in the Job
+3.) Login to ansible and create a new project
+
+    - Extra Values (replace content with azur credentials)
+      vmname: srv001
+      debug: 1
+      subscription_id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+      tenant: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+      secret: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+      client_id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+
+
 # AZURE ACCOUNT CREDENTIOALS
 cat ~/.azure/credentials
 [default]
