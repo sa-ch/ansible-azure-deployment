@@ -1,0 +1,25 @@
+---
+name: AzureCloud
+location_name: azure_westeurope
+connection: local
+resourcegrp: rg_westeurope
+location: westeurope
+virtualnetwork: vnet_prod
+virt_address_prefixes: 10.10.0.0/16
+sub_address_prefix: 10.10.0.0/24
+subnet: net_DMZ
+storage_account: sta0001
+storage_account_type: Standard_LRS
+vm_size: Basic_A1
+#vm_name: myvm001
+#storage_container: myvm0001
+#my_storage_blob: myvm0001.vhd
+#admin_username: labadmin
+#admin_password: RedHat123456!
+network_interfaces: nic001
+nic: nic001
+public_ip_name: pip0001
+allocation_method: Static 
+securitygrp: azure-admin
+#pubipname: mypubip001
+state_toggle: present

@@ -1,0 +1,73 @@
+    - include_vars: files/{{ location_name }}.yml
+
+    - fail:
+       msg: "usage: ansible-playbook -e location_name=<location> create_location.yml"
+      when: location_name is not defined
+
+    - debug:
+        var: location_name
+      when: debug == 1
+
+    - name: "Create resource group: {{ resourcegrp }} in location: {{ location }}"
+      azure_rm_resourcegroup:
+        name: "{{ resourcegrp }}"
+        location: "{{ location }}" 
+        state: "{{ state_toggle }}"
+
+    - name: "Create security group: {{ securitygrp }}"
+      azure_rm_securitygroup:
+        resource_group: "{{ resourcegrp }}"
+        name: "{{ securitygrp }}"
+        rules:
+          - name: SSH
+            protocol: Tcp
+            destination_port_range: 22
+            access: Allow
+            priority: 101
+            direction: Inbound
+        state: "{{ state_toggle }}"
+
+    - name: "Create virtual network: {{ virtualnetwork }}"
+      azure_rm_virtualnetwork:
+        resource_group: "{{ resourcegrp }}"
+        name: "{{ virtualnetwork }}"
+        address_prefixes: "10.10.0.0/16"
+        state: "{{ state_toggle }}"
+
+    - name: "Add subnet: {{ subnet }}"
+      azure_rm_subnet:
+        resource_group: "{{ resourcegrp }}"
+        name: "{{ subnet }}"
+        address_prefix: "{{ sub_address_prefix }}"
+        virtual_network: "{{ virtualnetwork }}"
+        state: "{{ state_toggle }}"
+
+    - name: Create storage account
+      azure_rm_storageaccount:
+        resource_group: "{{ resourcegrp }}"
+        name: "{{ storage_account }}"
+        account_type: "{{ storage_account_type }}"
+        state: "{{ state_toggle }}" 
+
+#    - name: "Create public ip: {{ public_ip_name}}"
+#      azure_rm_publicipaddress:
+#        resource_group: "{{ resourcegrp }}"
+#        allocation_method: "{{ allocation_method }}"
+#        name: "{{ public_ip_name}}"
+#        state: "{{ state_toggle }}"
+
+
+#    - name: "Create NIC: {{ nic }}"
+#      azure_rm_networkinterface:
+#        resource_group: "{{ resourcegrp }}"
+#        name: "{{ nic }}"
+#        virtual_network: "{{ virtualnetwork }}"
+#        subnet: "{{ subnet }}"
+#        public_ip_name: "{{ public_ip_name }}"
+#        security_group: "{{ securitygrp }}"
+#        state: "{{ state_toggle }}"
+
+
+
+
+
