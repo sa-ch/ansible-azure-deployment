@@ -68,4 +68,7 @@
         state: absent
         regexp: "^.* {{ vmname }}$"
       become: true
+      delegate_to: ansible.rhlab.ch
+      remote_user: ansible
+
 
