@@ -126,6 +126,10 @@
       delegate_to: ansible.rhlab.ch
       remote_user: ansible
 
+    - name: Remove old known_host entry
+      regext: "^{{ vmname }}"
+      status: absent
+      path: /home/ansible/.ssh/known_hosts
 
 
 
