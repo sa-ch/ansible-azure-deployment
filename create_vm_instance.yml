@@ -127,9 +127,10 @@
       remote_user: ansible
 
     - name: Remove old known_host entry
-      regext: "^{{ vmname }}"
-      status: absent
-      path: /home/ansible/.ssh/known_hosts
+      lineinfile:
+        regexp: "^{{ vmname }}"
+        status: absent
+        path: /home/ansible/.ssh/known_hosts
 
 
 
