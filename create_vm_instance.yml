@@ -92,6 +92,7 @@
         resource_group: "{{ resourcegrp }}"
         name: "{{ vmname }}"
         vm_size: "{{ vm_size }}"
+        open_ports: 22,80
         storage_account: "{{ storage_account }}"
         storage_container: "{{ storage_container }}"
         storage_blob: "{{ my_storage_blob }}"
