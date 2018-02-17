@@ -131,6 +131,8 @@
         regexp: "^{{ vmname }}"
         status: absent
         path: /home/ansible/.ssh/known_hosts
+      delegate_to: ansible.rhlab.ch
+
 
 
 
