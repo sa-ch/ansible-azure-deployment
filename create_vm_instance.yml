@@ -132,6 +132,12 @@
         status: absent
         path: /home/ansible/.ssh/known_hosts
       delegate_to: ansible.rhlab.ch
+      remote_user: ansible
+      
+    - name: add ssh host key
+      command: ssh-keyscan -t ecdsa-sha2-nistp256 srv001 >> /home/ansible/.ssh/known_hosts
+      delegate_to: ansible.rhlab.ch
+      remote_user: ansible
 
 
 
