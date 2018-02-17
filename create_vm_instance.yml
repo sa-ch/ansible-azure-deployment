@@ -91,7 +91,6 @@
       azure_rm_virtualmachine:
         resource_group: "{{ resourcegrp }}"
         name: "{{ vmname }}"
-        endpoints: 22,80
         vm_size: "{{ vm_size }}"
         storage_account: "{{ storage_account }}"
         storage_container: "{{ storage_container }}"
