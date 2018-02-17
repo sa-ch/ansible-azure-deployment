@@ -129,7 +129,7 @@
     - name: Remove old known_host entry
       lineinfile:
         regexp: "^{{ vmname }}"
-        status: absent
+        state: absent
         path: /home/ansible/.ssh/known_hosts
       delegate_to: ansible.rhlab.ch
       remote_user: ansible
