@@ -28,7 +28,7 @@
     - vm_size: Basic_A1
     - admin_username: ansible
     - admin_password: RedHat123456!
-    - debug: 0
+    - debug: 1
   environment:
     AZURE_CLIENT_ID: "{{ client_id }}"
     AZURE_SECRET: "{{ secret }}"
@@ -41,6 +41,12 @@
   tasks:
     - name: Create Server
       include_tasks: tasks/create_instance.yml
+
+    - name: Private IP
+      debug: 
+        msg: "Private IP: {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }} Public IP: {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+
+
 
 
 
