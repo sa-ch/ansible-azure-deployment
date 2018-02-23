@@ -3,6 +3,16 @@
   become: yes
   become_method: sudo
   become_user: root
+  become: true
+  vars:
+    wp_version: 4.0
+    wp_install_dir: '/var/sites/awesome_wordpress_site'
+    wp_db_name: 'database_name_here'
+    wp_db_user: 'username_here'
+    wp_db_password: 'password_here'
+    wp_db_host: 'localhost'
+  roles:
+    - ansible-role-wordpress
   tasks: 
     - name: Display web001 IP's
       debug:

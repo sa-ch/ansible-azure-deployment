@@ -1,0 +1,17 @@
+- name: Install WordPress
+  hosts: srv-01.rhlab.ch
+  become: true
+  remote_user: ansible
+  vars:
+    wp_version: 4.0
+    wp_install_dir: '/var/sites/awesome_wordpress_site'
+    wp_db_name: 'database_name_here'
+    wp_db_user: 'username_here'
+    wp_db_password: 'password_here'
+    wp_db_host: 'localhost'
+  roles:
+    - ansible-role-wordpress
+#    - darthwade.wordpress
+  tasks:
+    - name: ID
+      command: /bin/id
