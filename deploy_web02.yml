@@ -1,6 +1,6 @@
 ---
 # =====================================================================
-#        File:  build_webservers.yml
+#        File:  deploy_web02.yml
 #    Location:  https://github.com/sa-ch/ansible-azure-deployment.git
 #   Launguage:  Ansible Playbook
 #    Category:  ansible
@@ -21,18 +21,21 @@
 # in this software or its documentation.
 # =====================================================================
 
-
 - name: Create virtual machine
   hosts: localhost
-  vars: 
-    - vm_list: 
-        - srv001
-        - srv002
-        - srv003
+  vars:
+    - vmname: web002
+    - vm_size: Basic_A1
+    - admin_username: ansible
+    - admin_password: RedHat123456!
     - debug: 0
+  pre_tasks:
+    - fail:
+       msg: "usage: ansible-playbook -e location_name=<location> build_web_01.yml"
+      when: location_name is not defined
   tasks:
-    - name: Create Server: "{{ item }}"
+    - name: Create Server
       include_tasks: tasks/create_instance.yml
-      with_items: "{{ vm_list }}"
+
 
 

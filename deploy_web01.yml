@@ -1,6 +1,6 @@
 ---
 # =====================================================================
-#        File:  build_web_02.yml
+#        File:  deploy_web01.yml
 #    Location:  https://github.com/sa-ch/ansible-azure-deployment.git
 #   Launguage:  Ansible Playbook
 #    Category:  ansible
@@ -24,7 +24,7 @@
 - name: Create virtual machine
   hosts: localhost
   vars:
-    - vmname: web002
+    - vmname: web001
     - vm_size: Basic_A1
     - admin_username: ansible
     - admin_password: RedHat123456!
