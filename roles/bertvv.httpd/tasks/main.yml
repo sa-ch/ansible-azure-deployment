@@ -11,6 +11,7 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ httpd_packages }}"
+  become: true
   tags: httpd
 
 - name: Install scripting support if needed
@@ -18,6 +19,7 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ httpd_scripting_packages[httpd_scripting] }}"
+  become: true
   tags: httpd
 
 - name: Ensure Apache is always running
