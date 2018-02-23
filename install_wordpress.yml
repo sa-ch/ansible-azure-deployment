@@ -1,0 +1,6 @@
+- name: Install Wordpress Application
+  hosts: web001
+  tasks: 
+    - name: Display Artefacts
+      debug:
+        msg: "web001_prvip: {{ web001_prvip }} web002_prvip: {{ web002_prvip }}"

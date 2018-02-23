@@ -47,3 +47,5 @@ ansible-playbook -e vmname=srv002 create_vm_instance.yml
 ansible-playbook -e vmname=srv001 delete_vm_instance.yml
 ansible-playbook -e vmname=srv002 delete_vm_instance.yml
 
+ansible-playbook -e location_name=azure_westeurope build_azure_environment.yml
+ansible-playbook -e location_name=azure_westeurope build_web_01.yml

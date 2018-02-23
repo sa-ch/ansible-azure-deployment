@@ -46,35 +46,42 @@
       debug: 
         msg: "Private IP: {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }} Public IP: {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
 
-- name: Setup Remote System
-  hosts: web001
-  vars:
-    - vmname: web001
-    - pubip: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress
-    - prvip: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress
-  tasks: 
-    - name: update /etc/hosts
-      lineinfile:
-        path: /etc/hosts
-        regexp: '^.* {{ vmname }}$'
-        line: "{{ prvip }} {{ vmname }}"
-      become: true
-      delegate_to: ansible.rhlab.ch
-      remote_user: ansible
+    - name: "Artifact of IP Addresses"
+      set_stats:
+        per_host: false
+        data:
+          web001_prvip:  "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }}"
+          web001_pubip: "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
 
-    - name: update facts
-      file: 
-        path: /etc/ansible/facts.d
-        state: directory
-        
-    - name: write facts
-      copy: 
-        content: |
-          [ip]
-          pubip: "{{ pubip }}" 
-          prvip: "{{ prvip }}" 
-        dest: /etc/ansible/facts.d/facts.yml
-      state: present
-  
-
-
+#- name: Setup Remote System
+#  hosts: web001
+#  vars:
+#    - vmname: web001
+#    - pubip: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress
+#    - prvip: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress
+#  tasks: 
+#    - name: update /etc/hosts
+#      lineinfile:
+#        path: /etc/hosts
+#        regexp: '^.* {{ vmname }}$'
+#        line: "{{ prvip }} {{ vmname }}"
+#      become: true
+#      delegate_to: ansible.rhlab.ch
+#      remote_user: ansible
+#
+#    - name: update facts
+#      file: 
+#        path: /etc/ansible/facts.d
+#        state: directory
+#        
+#    - name: write facts
+#      copy: 
+#        content: |
+#          [ip]
+#          pubip: "{{ pubip }}" 
+#          prvip: "{{ prvip }}" 
+#        dest: /etc/ansible/facts.d/facts.yml
+#      state: present
+#  
+#
+##
