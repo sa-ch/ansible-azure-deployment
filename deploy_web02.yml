@@ -44,7 +44,7 @@
 
     - name: "Artifact of IP Addresses"
       set_stats:
-        per_host: true
+        per_host: false
         data:
           web002_prvip:  "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }}"
           web002_pubip: "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
