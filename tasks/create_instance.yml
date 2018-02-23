@@ -69,7 +69,7 @@
 
     - name: Show Private IP
       debug: 
-        var: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[1].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress
+        var: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[1].properties.ipConfigurations[0].properties.privateIPAddress
 #      when: debug > 0
 
     - name: Show Public IP
