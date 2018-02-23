@@ -1,6 +1,8 @@
 - name: Install Wordpress Application
   hosts: web001
   become: yes
+  become_method: sudo
+  become_user: root
   vars:
     wp_version: 4.0
     wp_install_dir: '/var/sites/awesome_wordpress_site'
