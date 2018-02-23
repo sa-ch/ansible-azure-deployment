@@ -22,42 +22,8 @@
 # =====================================================================
 
 
-- name: Create virtual machine
-  hosts: localhost
-  environment: 
-    AZURE_CLIENT_ID: "{{ client_id }}"
-    AZURE_SECRET: "{{ secret }}"
-    AZURE_SUBSCRIPTION_ID: "{{ subscription_id }}"
-    AZURE_TENANT: "{{ tenant }}"
-  vars: 
-    - debug: 0
-    - location_name: azure_westeurope
-  pre_tasks:
-    - fail:
-       msg: "usage: ansible-playbook -e vmname=<vmname> create_vm_instance.yml"
-      when: vmname is not defined
-  tasks:
-#    - name: Include Azure Environment
-#      include_vars: files/{{ location_name }}.yml
-
-    - name: Setup Azure Environment in the {{ location_name }} location
-      include_tasks: tasks/create_location.yml
-
-    - name: Load build configuration for {{ vmname }}
-      include_vars: files/setup_{{ vmname }}.yml
-
-
-#vm_size: Basic_A1
-#storage_container: srv003
-#my_storage_blob: srv003.vhd
-##admin_username: labadmin
-#admin_username: ansible
-#admin_password: RedHat123456!
-#pubipname: srv003
-
-#    - name: 
-#      debug:
-#        msg: "Secret: {{ secret }}"
+    - name: Include Azure Environment
+      include_vars: files/{{ location_name }}.yml
 
     - name: "Create public ip: pip_{{ vmname }}"
       azure_rm_publicipaddress:
@@ -65,10 +31,6 @@
         allocation_method: "{{ allocation_method }}"
         name: "pip_{{ vmname }}"
         state: "{{ state_toggle }}"
-#        client_id: "{{ client_id }}"
-#        subscription_id: "{{ subscription_id }}"
-#        tenant: "{{ tenant }}"
-#        secret: "{{ secret }}"
 
     - name: "Create NIC: nic_{{ vmname }}"
       azure_rm_networkinterface:
@@ -79,10 +41,6 @@
         public_ip_name: "pip_{{ vmname }}"
         security_group: "{{ securitygrp }}"
         state: "{{ state_toggle }}"
-#        client_id: "{{ client_id }}"
-#        subscription_id: "{{ subscription_id }}"
-#        tenant: "{{ tenant }}"
-#        secret: "{{ secret }}"
 
     - name: Create virtual machine {{ vmname }}
       azure_rm_virtualmachine:
@@ -90,15 +48,11 @@
         name: "{{ vmname }}"
         vm_size: "{{ vm_size }}"
         storage_account: "{{ storage_account }}"
-        storage_container: "{{ storage_container }}"
-        storage_blob: "{{ my_storage_blob }}"
+        storage_container: "{{ vmname }}"
+        storage_blob: "{{ vmname }}.vhd"
         admin_username: "{{ admin_username }}"
         admin_password: "{{ admin_password }}"
         network_interfaces: "nic_{{ vmname }}"
-#        client_id: "{{ client_id }}"
-#        subscription_id: "{{ subscription_id }}"
-#        tenant: "{{ tenant }}"
-#        secret: "{{ secret }}"
         ssh_public_keys: 
           - path: /home/ansible/.ssh/authorized_keys
             key_data: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC55gMWnehtZ2D6v8m8Qh6ZuVdUgeH9sdcIpTgdq6dwbsJ8wqyXrfQU8NLsHTVxHCbWC/ux2hyOK6MAPxOUSC4X6u+asx61RRn39mUaJ/0qfpwAtP7/059ZxEHs/rZz21jm9HR9sqUrowqgwgbTX8FkDCR6AhqHE+naiWfA0DeIJ5Iywd2hdb2LlncA0fGdlwFPqfKRdOfRIrt4KADt4rR3X5q1m1P+QcuptGxx6CA/a3WLIMfLd6Kb7AgA5mRrC0DSvwUwJhnLD/b2YYQmBoX3G5d2kG2GQoCLjGxdUlU4L+Zc12hS15yqIhAVbRLkkVCeVZrab7pisvA+NjVr5c6J ansible@ansible.rhlab.ch
