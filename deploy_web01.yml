@@ -46,7 +46,33 @@
       debug: 
         msg: "Private IP: {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }} Public IP: {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
 
+- name: Create virtual machine
+  hosts: "{{ vmname }}"
+    - pubip: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress
+    - prvip: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress
+  tasks: 
+    - name: update /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        regexp: '^.* {{ vmname }}$'
+        line: "{{ prvip }} {{ vmname }}"
+      become: true
+      delegate_to: ansible.rhlab.ch
+      remote_user: ansible
 
-
+    - name: update facts
+      file: 
+        path: /etc/ansible/facts.d
+        state: directory
+        
+    - name: write facts
+      copy: 
+        content: |
+          [ip]
+          pubip: "{{ pubip }}" 
+          prvip: "{{ prvip }}" 
+        dest: /etc/ansible/facts.d/facts.yml
+      state: present
+  
 
 
