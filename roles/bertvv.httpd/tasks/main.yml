@@ -7,7 +7,7 @@
     - "{{ ansible_os_family }}.yml"
 
 - name: Ensure Apache is installed
-  package:
+  yum:
     name: "{{ item }}"
     state: present
   with_items: "{{ httpd_packages }}"
@@ -15,7 +15,7 @@
   tags: httpd
 
 - name: Install scripting support if needed
-  package:
+  yum:
     name: "{{ item }}"
     state: present
   with_items: "{{ httpd_scripting_packages[httpd_scripting] }}"
