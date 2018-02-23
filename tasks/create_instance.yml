@@ -65,17 +65,17 @@
 
     - debug: 
         var: vmstat.ansible_facts.azure_vm
-      when: debug > 0
+#      when: debug > 0
 
     - name: Show Private IP
       debug: 
         var: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[1].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress
-      when: debug > 0
+#      when: debug > 0
 
     - name: Show Public IP
       debug: 
         var: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress
-      when: debug > 0
+#      when: debug > 0
 
     - name: Add host to /etc/hosts
       lineinfile:
