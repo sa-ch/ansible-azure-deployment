@@ -6,6 +6,13 @@
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
 
+- name: Get ID
+  command: /bin/id
+
+- name: Get ID (root)
+  command: /bin/id
+  become: true
+
 - name: Ensure Apache is installed
   yum:
     name: "{{ item }}"
