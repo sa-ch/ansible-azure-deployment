@@ -1,9 +1,6 @@
 - name: Install Wordpress Application
   hosts: web001
   become: yes
-  become_method: sudo
-  become_user: root
-  become: true
   vars:
     wp_version: 4.0
     wp_install_dir: '/var/sites/awesome_wordpress_site'
@@ -13,41 +10,40 @@
     wp_db_host: 'localhost'
   roles:
     - ansible-role-wordpress
-  tasks: 
-    - name: Display web001 IP's
-      debug:
-        msg: "web001_prvip: {{ web001_prvip }} web001_pubip: {{ web001_pubip }}"
-      ignore_errors: true
-
-    - name: Display web002 IP's
-      debug:
-        msg: "web002_prvip: {{ web002_prvip }} web002_pubip: {{ web002_pubip }}"
-      ignore_errors: true
-
-    - name: id
-      command: /bin/id
-
-    - name: Hostname
-      command: /bin/hostname
-
-    - name: update /etc/hosts
-      lineinfile:
-        path: /etc/hosts
-        regexp: '^.* {{ vmname }}$'
-        line: "{{ web001_prvip }} {{ vmname }}"
-
-    - name: update facts
-      file:
-        path: /etc/ansible/facts.d
-        state: directory
-
-    - name: write facts
-      copy:
-        content: |
-          [ip]
-          pubip: "{{ web001_pubip }}"
-          prvip: "{{ web001_prvip }}"
-        dest: /etc/ansible/facts.d/facts.yml
-      state: present
-
-
+#  tasks: 
+#    - name: Display web001 IP's
+#      debug:
+#        msg: "web001_prvip: {{ web001_prvip }} web001_pubip: {{ web001_pubip }}"
+#      ignore_errors: true
+#
+#    - name: Display web002 IP's
+#      debug:
+#        msg: "web002_prvip: {{ web002_prvip }} web002_pubip: {{ web002_pubip }}"
+#      ignore_errors: true
+#
+#    - name: id
+#      command: /bin/id
+#
+#    - name: Hostname
+#      command: /bin/hostname
+#
+#    - name: update /etc/hosts
+#      lineinfile:
+#        path: /etc/hosts
+#        regexp: '^.* {{ vmname }}$'
+#        line: "{{ web001_prvip }} {{ vmname }}"
+#
+#    - name: update facts
+#      file:
+#        path: /etc/ansible/facts.d
+#        state: directory
+#
+#    - name: write facts
+#      copy:
+#        content: |
+#          [ip]
+#          pubip: "{{ web001_pubip }}"
+#          prvip: "{{ web001_prvip }}"
+#        dest: /etc/ansible/facts.d/facts.yml
+#      state: present
+#
