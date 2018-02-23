@@ -25,9 +25,6 @@
         path: /etc/hosts
         regexp: '^.* {{ vmname }}$'
         line: "{{ web001_prvip }} {{ vmname }}"
-      become: true
-      delegate_to: ansible.rhlab.ch
-      remote_user: ansible
 
     - name: update facts
       file:
