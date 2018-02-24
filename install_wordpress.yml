@@ -1,3 +1,6 @@
+- name: Install Wordpress Application
+  hosts: web001
+
 - name: Wait for web001 to be completed
   hosts: web002
   become: yes

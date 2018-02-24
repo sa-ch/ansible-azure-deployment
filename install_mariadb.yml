@@ -10,6 +10,16 @@
       delegate_to: ansible.rhlab.ch
       remote_user: azureadm
 
+#- name: Create user defined databases
+#  mysql_db:
+#    name: "{{ item.name }}"
+#    login_user: root
+#    login_password: "{{ mariadb_root_password }}"
+#    state: present
+#  with_items: "{{ mariadb_databases }}"
+#  register: db_creation
+#  tags: mariadb
+
 - name: Install MariaDB 
   hosts: web001
   become: true
@@ -17,7 +27,7 @@
     mariadb_bind_address: '0.0.0.0'
     mariadb_root_password: '&othErEek97FrewlAyd?'
     mariadb_databases:
-      - wordpress_db
+      - name: wordpress_db
     mariadb_users:
       - name: wordpress_usr
         password: ywIapecJalg6
