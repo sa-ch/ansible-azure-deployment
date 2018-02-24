@@ -46,7 +46,7 @@
         regexp: "^.* {{ vmname }}$"
       become: true
       delegate_to: ansible.rhlab.ch
-      remote_user: ansible
+      remote_user: azureadm
 
     - name: Remove PrivateIP  entry in /etc/hosts
       lineinfile:
@@ -55,6 +55,6 @@
         regexp: "^.* {{ vmname }}_int$"
       become: true
       delegate_to: ansible.rhlab.ch
-      remote_user: ansible
+      remote_user: azureadm
 
 
