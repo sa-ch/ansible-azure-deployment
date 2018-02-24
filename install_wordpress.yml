@@ -47,12 +47,12 @@
     wordpress_plugins:
       - name: wp-super-cache
         version: 1.4.5
-      - name: jetpack
-        version: 3.7.2
+      #- name: jetpack
+      #  version: 3.7.2
       - name: lipsum
     wordpress_themes:
-      - name: xcel
-        version: 1.0.9
+      #- name: xcel
+      #  version: 1.0.9
   roles:
     - bertvv.httpd
     - ansible-role-wordpress
