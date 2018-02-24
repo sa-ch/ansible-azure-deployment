@@ -23,4 +23,5 @@
     wp_db_password: 'redhat1234'
     wp_db_host: 'localhost'
   roles:
+    - bertvv.mariadb
     - ansible-role-wordpress
