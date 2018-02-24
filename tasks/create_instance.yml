@@ -87,6 +87,7 @@
         ipa: "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
       delegate_to: ansible.rhlab.ch
       remote_user: azureadm
+      become: true
 
     - name: Remove old known_host entry
       lineinfile:
