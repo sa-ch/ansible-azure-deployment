@@ -13,6 +13,11 @@
       delegate_to: ansible.rhlab.ch
       remote_user: azureadm
 
+    - name: Install libsemanage-python
+      yum: 
+        name: libsemanage-python
+        state: installed
+
 #- name: Install MariaDB
 #  hosts: web002
 #  become: true
