@@ -43,6 +43,29 @@
     - name: Create Server
       include_tasks: tasks/create_instance.yml
 
+    - name: Create facts Directory
+      file:
+        path: /etc/ansible/facts.d
+        recurse: true
+        state: directory
+        mode: 0755
+      become: yes
+      delegate_to: "{{ vmname }}"
+      remote_user: azureadm
+
+    - name: write facts
+      copy:
+        content: |
+          [rhlabip]
+          pubip = {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }}
+          prvip = {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}
+        dest: /etc/ansible/facts.d/custom.fact
+        mode: 0644
+      state: present
+      become: yes
+      delegate_to: "{{ vmname }}"
+      remote_user: azureadm
+
     - name: "Artifact of IP Addresses"
       set_stats:
         per_host: false
