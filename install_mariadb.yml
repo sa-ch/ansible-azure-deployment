@@ -12,15 +12,17 @@
 
 - name: Install MariaDB 
   hosts: web001
-  become: yes
-  become_method: sudo
-  become_user: root
+  become: true
   vars:
-    wp_version: 4.0
-    wp_install_dir: '/var/sites/awesome_wordpress_site'
-    wp_db_name: 'wpdb'
-    wp_db_user: 'admin'
-    wp_db_password: 'redhat1234'
-    wp_db_host: 'localhost'
+    mariadb_bind_address: '0.0.0.0'
+    mariadb_root_password: '&othErEek97FrewlAyd?'
+    mariadb_databases:
+      - wordpress_db
+    mariadb_users:
+      - name: wordpress_usr
+        password: ywIapecJalg6
+        priv: wordpress_db.*:ALL
+        host: '10.1.1.%'
   roles:
     - bertvv.mariadb
+
