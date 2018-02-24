@@ -77,12 +77,17 @@
         var: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress
 #      when: debug > 0
 
+    - name: "*** ID ***"
+      command: /bin/id
+      delegate_to: ansible.rhlab.ch
+      remote_user: azureadm
+      become: true
+
     - name: Add host to /etc/hosts
       lineinfile:
         path: /etc/hosts
         regexp: '^.* {{ vmname }}$'
         line: "{{ ipa }} {{ vmname }}"
-      become: true
       vars: 
         ipa: "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
       delegate_to: ansible.rhlab.ch
