@@ -23,6 +23,7 @@
 
 - name: Create virtual machine
   hosts: localhost
+  remote_user: azureadm
   vars:
     - vmname: web002
     - vm_size: Basic_A1
