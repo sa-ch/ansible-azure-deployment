@@ -1,0 +1,9 @@
+[azure_westeurope]
+srv001
+srv002
+[azure_easteurope]
+srv003
+
+[webserver]
+web001
+web002
