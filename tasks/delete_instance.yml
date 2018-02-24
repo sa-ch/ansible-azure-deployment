@@ -1,0 +1,60 @@
+---
+# =====================================================================
+#        File:  delete_instance.yml
+#    Location:  https://github.com/sa-ch/ansible-azure-deployment.git
+#   Launguage:  Ansible Playbook
+#    Category:  ansible
+#     Purpose:  Delete a VM Instances on Microsoft Azure
+#      Author:  Sacha Dubois, Red Hat, Email: sadubois@redhat.com
+#               Peter Mumenthaler Red Hat, Email: pmumenth@redhat.com
+#
+# Copyright (c) 2010 - 2012 Red Hat, Inc.
+# This software is licensed to you under the GNU General Public License,
+# version 2 (GPLv2). There is NO WARRANTY for this software, express or
+# implied, including the implied warranties of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. You should have received a copy of GPLv2
+# along with this software; if not, see
+# http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
+#
+# Red Hat trademarks are not licensed under GPLv2. No permission is
+# granted to use or replicate Red Hat trademarks that are incorporated
+# in this software or its documentation.
+# =====================================================================
+
+    - name: Load Azure Environment
+      include_vars: files/{{ location_name }}.yml
+
+    - name: Remove Flag completed
+      file: 
+        path: "/tmp/{{ vmname }}"
+        state: absent
+      delegate_to: ansible.rhlab.ch
+      remote_user: azureadm
+
+    - name: remove Virtual Machine all
+      azure_rm_virtualmachine:
+        resource_group: "{{ resourcegrp }}"
+        name: "{{ vmname }}"
+        state: absent
+        remove_on_absent: 
+          - all
+    
+    - name: Remove ihost entry in /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: "^.* {{ vmname }}$"
+      become: true
+      delegate_to: ansible.rhlab.ch
+      remote_user: ansible
+
+    - name: Remove PrivateIP  entry in /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: "^.* {{ vmname }}_int$"
+      become: true
+      delegate_to: ansible.rhlab.ch
+      remote_user: ansible
+
+

@@ -26,9 +26,8 @@
   vars:
     - vmname: web001
     - vm_size: Basic_A1
-    - admin_username: ansible
-#    - admin_password: RedHat123456!
-    - admin_password: redhat1234
+    - admin_username: azureadm
+    - admin_password: RedHat123456!
     - debug: 1
   environment:
     AZURE_CLIENT_ID: "{{ client_id }}"
@@ -43,46 +42,57 @@
     - name: Create Server
       include_tasks: tasks/create_instance.yml
 
+    - name: Create facts Directory
+      file:
+        path: /etc/ansible/facts.d
+        recurse: true
+        state: directory
+        mode: 0755
+      become: yes
+      delegate_to: "{{ vmname }}"
+      remote_user: azureadm
+
+    - name: write facts
+      copy:
+        content: |
+          [rhlabip]
+          pubip = {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }}
+          prvip = {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}
+        dest: /etc/ansible/facts.d/custom.fact
+        mode: 0644
+      state: present
+      become: yes
+      delegate_to: "{{ vmname }}"
+      remote_user: azureadm
+
     - name: Private IP
       debug: 
         msg: "Private IP: {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }} Public IP: {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
 
     - name: "Artifact of IP Addresses"
+      vars:
+        prvip: "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }}"
+        pubip: "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
       set_stats:
-        per_host: false
+        per_host: true
+        aggregate: yes
         data:
           web001_prvip:  "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress }}"
           web001_pubip: "{{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
 
-#- name: Setup Remote System
-#  hosts: web001
-#  vars:
-#    - vmname: web001
-#    - pubip: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress
-#    - prvip: vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress
-#  tasks: 
-#    - name: update /etc/hosts
-#      lineinfile:
-#        path: /etc/hosts
-#        regexp: '^.* {{ vmname }}$'
-#        line: "{{ prvip }} {{ vmname }}"
-#      become: true
-#      delegate_to: ansible.rhlab.ch
-#      remote_user: ansible
-#
-#    - name: update facts
-#      file: 
-#        path: /etc/ansible/facts.d
-#        state: directory
-#        
-#    - name: write facts
-#      copy: 
-#        content: |
-#          [ip]
-#          pubip: "{{ pubip }}" 
-#          prvip: "{{ prvip }}" 
-#        dest: /etc/ansible/facts.d/facts.yml
-#      state: present
-#  
-#
-##
+
+
+- name: => Setup Remote System
+  hosts: web001
+  remote_user: azureadm
+  become: yes
+  vars:
+    - vmname: web001
+    - pubip: "{{ hostvars['web001'].ansible_local.custom.rhlabip.pubip }}"
+    - prvip: "{{ hostvars['web001'].ansible_local.custom.rhlabip.prvip }}"  
+
+  tasks:
+    - name: test
+      debug: 
+        msg: "pubip: {{ hostvars['web001'].ansible_local.custom.rhlabip.pubip }}"
+

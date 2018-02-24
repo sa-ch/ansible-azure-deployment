@@ -26,9 +26,8 @@
   vars:
     - vmname: web002
     - vm_size: Basic_A1
-    - admin_username: ansible
-#    - admin_password: RedHat123456!
-    - admin_password: redhat1234
+    - admin_username: azureadm
+    - admin_password: RedHat123456!
     - debug: 0
   environment:
     AZURE_CLIENT_ID: "{{ client_id }}"

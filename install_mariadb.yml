@@ -13,6 +13,12 @@
   roles:
     - bertvv.mariadb
   tasks: 
+    - name: Wait unitil web002 is ready
+      wait_for:
+        path: /tmp/web002
+      delegate_to: ansible.rhlab.ch
+      remote_user: azureadm
+
     - name: Display web001 IP's
       debug:
         msg: "web001_prvip: {{ web001_prvip }} web001_pubip: {{ web001_pubip }}"

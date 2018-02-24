@@ -5,4 +5,5 @@ srv002
 srv003
 
 [webserver]
-srv001
+web001
+web002
