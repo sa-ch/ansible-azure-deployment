@@ -18,22 +18,6 @@
         name: libsemanage-python
         state: installed
 
-#- name: Install MariaDB
-#  hosts: web002
-#  become: true
-#  vars:
-#    mariadb_bind_address: '0.0.0.0'
-#    mariadb_root_password: '&othErEek97FrewlAyd?'
-#    mariadb_databases:
-#      - wordpress_db
-#    mariadb_users:
-#      - name: wordpress_usr
-#        password: ywIapecJalg6
-#        priv: wordpress_db.*:ALL
-##        host: '192.168.56.%'
-#  roles:
-#    - bertvv.mariadb
-
 - name: Install Wordpress Application
   hosts: web002
   become: true
@@ -56,4 +40,32 @@
   roles:
     - bertvv.httpd
     - ansible-role-wordpress
+
+  tasks:
+
+    - name: Rsync Wordpress contents
+      command: rsync -avP /usr/share/wordpress/ /var/www/html/
+
+    - name: create upload Directory
+      file: 
+        state: directory
+        path: /var/www/html/wp-content/uploads
+        mode: 0775
+
+    - name: Change Pemission
+      file: 
+        owner: apache
+        group: apache
+        path: /var/www/html
+        recurse: yes
+
+    - name: Restart WebServer
+      service:
+        name: httpd
+        state: restarted
+
+    - debug: 
+        msg: | 
+          WordPress successfuly installed 
+          Connect with following URL: http://{{ web002_pubip }}/wp-admin  
 

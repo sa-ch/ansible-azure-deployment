@@ -52,3 +52,9 @@ ansible-playbook -e location_name=azure_westeurope deploy_web02.yml
 
 ansible-playbook -e location_name=azure_westeurope delete_web01.yml 
 ansible-playbook -e location_name=azure_westeurope delete_web02.yml 
+
+[root@web002 azureadm]# mysql -u wordpress_usr -p -h 10.1.1.6
+MariaDB [(none)]> show databases;
+
+# Wordpress Install
+https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-centos-7
