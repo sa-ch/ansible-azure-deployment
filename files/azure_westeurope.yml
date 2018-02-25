@@ -2,7 +2,7 @@
 name: AzureCloud
 location_name: azure_westeurope
 connection: local
-resourcegrp: Web_Application
+resourcegrp: "WordPress-Demo"
 location: westeurope
 virtualnetwork: VNet_Prod
 #virt_address_prefixes: 10.10.0.0/16

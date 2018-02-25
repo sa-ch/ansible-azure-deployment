@@ -21,7 +21,7 @@
 # in this software or its documentation.
 # =====================================================================
 
-- name: Create virtual machine
+- name: Create Azure Environment
   hosts: localhost
   vars: 
     - debug: 0

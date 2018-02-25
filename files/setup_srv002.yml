@@ -1,9 +1,0 @@
----
-vm_size: Basic_A1
-storage_container: srv002
-my_storage_blob: srv002.vhd
-#admin_username: labadmin
-admin_username: ansible
-admin_password: RedHat123456!
-pubipname: srv002
-#publicIPAddress.properties.ipAddress

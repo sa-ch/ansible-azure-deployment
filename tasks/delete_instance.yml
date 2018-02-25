@@ -31,15 +31,26 @@
       delegate_to: ansible.rhlab.ch
       remote_user: azureadm
 
-    - name: remove Virtual Machine all
+    - name: Remove Virtual Machine on Azure
       azure_rm_virtualmachine:
         resource_group: "{{ resourcegrp }}"
         name: "{{ vmname }}"
         state: absent
         remove_on_absent: 
           - all
+
+    - name: "Remove NIC: nic_{{ vmname }}"
+      azure_rm_networkinterface:
+        resource_group: "{{ resourcegrp }}"
+        name: "nic_{{ vmname }}"
+        virtual_network: "{{ virtualnetwork }}"
+        subnet: "{{ subnet }}"
+        public_ip_name: "pip_{{ vmname }}"
+        security_group: "{{ securitygrp }}"
+        state: absent
+
     
-    - name: Remove ihost entry in /etc/hosts
+    - name: Remove host entry in /etc/hosts
       lineinfile:
         path: /etc/hosts
         state: absent

@@ -21,7 +21,7 @@
 # in this software or its documentation.
 # =====================================================================
 
-- name: Create virtual machine
+- name: Delete virtual machine web001
   hosts: localhost
   vars:
     - vmname: web001
@@ -31,7 +31,7 @@
        msg: "usage: ansible-playbook -e location_name=<location> delete_web_01.yml"
       when: location_name is not defined
   tasks:
-    - name: Delete Server
+    - name: Delete Server web001
       include_tasks: tasks/delete_instance.yml
 
 
