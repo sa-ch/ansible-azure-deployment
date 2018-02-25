@@ -43,6 +43,14 @@
     - name: Create Server
       include_tasks: tasks/create_instance.yml
 
+    - name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+      wait_for:
+        port: 22
+        host: "{{ vmname }}"
+        search_regex: OpenSSH
+        delay: 10
+      connection: local
+
     - name: Create facts Directory
       file:
         path: /etc/ansible/facts.d
