@@ -10,7 +10,7 @@ virtualnetwork: VNet_Prod
 virt_address_prefixes: 10.1.0.0/16
 sub_address_prefix: 10.1.1.0/24
 subnet: net_DMZ
-storage_account: sta0001
+storage_account: sta0002
 storage_account_type: Standard_LRS
 vm_size: Basic_A1
 network_interfaces: nic001
