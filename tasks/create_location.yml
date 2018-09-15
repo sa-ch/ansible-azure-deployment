@@ -49,23 +49,6 @@
         account_type: "{{ storage_account_type }}"
         state: "{{ state_toggle }}" 
 
-#    - name: "Create public ip: {{ public_ip_name}}"
-#      azure_rm_publicipaddress:
-#        resource_group: "{{ resourcegrp }}"
-#        allocation_method: "{{ allocation_method }}"
-#        name: "{{ public_ip_name}}"
-#        state: "{{ state_toggle }}"
-
-
-#    - name: "Create NIC: {{ nic }}"
-#      azure_rm_networkinterface:
-#        resource_group: "{{ resourcegrp }}"
-#        name: "{{ nic }}"
-#        virtual_network: "{{ virtualnetwork }}"
-#        subnet: "{{ subnet }}"
-#        public_ip_name: "{{ public_ip_name }}"
-#        security_group: "{{ securitygrp }}"
-#        state: "{{ state_toggle }}"
 
 
 
