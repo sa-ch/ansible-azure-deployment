@@ -38,9 +38,9 @@
       include_vars: files/{{ location_name }}.yml
 
     - name: "Create resource group: {{ resourcegrp }} in location: {{ location }}"
-     azure_rm_resourcegroup:
+      azure_rm_resourcegroup:
         name: "{{ resourcegrp }}"
-       location: "{{ location }}" 
+        location: "{{ location }}" 
         state: "{{ state_toggle }}"
 
     - name: "Create security group: {{ securitygrp }}"
