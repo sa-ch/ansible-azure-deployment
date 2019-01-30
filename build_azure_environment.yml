@@ -37,11 +37,11 @@
     - name: Include Azure Environment (azure_westeurope or azure_easteurope)
       include_vars: files/{{ location_name }}.yml
 
-    - name: "Create resource group: {{ resourcegrp }} in location: {{ location }}"
-      azure_rm_resourcegroup:
-        name: "{{ resourcegrp }}"
-        location: "{{ location }}" 
-        state: "{{ state_toggle }}"
+#    - name: "Create resource group: {{ resourcegrp }} in location: {{ location }}"
+#     azure_rm_resourcegroup:
+#        name: "{{ resourcegrp }}"
+#       location: "{{ location }}" 
+#        state: "{{ state_toggle }}"
 
     - name: "Create security group: {{ securitygrp }}"
       azure_rm_securitygroup:
