@@ -30,11 +30,11 @@
     - admin_username: azureadm
     - admin_password: RedHat123456!
     - debug: 1
-  environment:
-    AZURE_CLIENT_ID: "{{ client_id }}"
-    AZURE_SECRET: "{{ secret }}"
-    AZURE_SUBSCRIPTION_ID: "{{ subscription_id }}"
-    AZURE_TENANT: "{{ tenant }}"
+  #environment:
+    #AZURE_CLIENT_ID: "{{ client_id }}"
+    #AZURE_SECRET: "{{ secret }}"
+    #AZURE_SUBSCRIPTION_ID: "{{ subscription_id }}"
+    #AZURE_TENANT: "{{ tenant }}"
   pre_tasks:
     - fail:
        msg: "usage: ansible-playbook -e location_name=<location> build_web_01.yml"
@@ -69,7 +69,7 @@
           pubip = {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}
         dest: /etc/ansible/facts.d/custom.fact
         mode: 0644
-      state: present
+      #state: present
       become: yes
       delegate_to: "{{ vmname }}"
       remote_user: azureadm
