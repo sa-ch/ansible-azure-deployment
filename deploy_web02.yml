@@ -69,7 +69,6 @@
           pubip = {{ vmstat.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}
         dest: /etc/ansible/facts.d/custom.fact
         mode: 0644
-      state: present
       become: yes
       delegate_to: "{{ vmname }}"
       remote_user: azureadm
